@@ -1,0 +1,11 @@
+const apiKey = process.env.YOUTUBE_API_KEY;
+const searchUrl = new URL('https://www.googleapis.com/youtube/v3/search');
+searchUrl.searchParams.append('part', 'snippet');
+searchUrl.searchParams.append('type', 'video');
+searchUrl.searchParams.append('regionCode', 'KR');
+searchUrl.searchParams.append('relevanceLanguage', 'ko');
+searchUrl.searchParams.append('maxResults', '1');
+searchUrl.searchParams.append('order', 'rating');
+searchUrl.searchParams.append('q', 'test');
+searchUrl.searchParams.append('key', apiKey);
+fetch(searchUrl.toString()).then(r => r.json()).then(console.log).catch(console.error);

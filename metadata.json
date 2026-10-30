@@ -1,0 +1,6 @@
+{
+  "name": "YouTube 콘텐츠 분석기",
+  "description": "YouTube 인기 영상 데이터를 분석하여 새로운 콘텐츠 전략과 아이디어를 제안하는 애플리케이션입니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

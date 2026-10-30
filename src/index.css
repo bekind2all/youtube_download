@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --color-apple-primary: #0066cc;
+  --color-apple-primary-focus: #0071e3;
+  --color-apple-primary-on-dark: #2997ff;
+  --color-apple-ink: #1d1d1f;
+  --color-apple-ink-muted-80: #333333;
+  --color-apple-ink-muted-48: #7a7a7a;
+  --color-apple-canvas: #ffffff;
+  --color-apple-parchment: #f5f5f7;
+  --color-apple-pearl: #fafafc;
+  --color-apple-tile-1: #272729;
+  --color-apple-tile-2: #2a2a2c;
+  --color-apple-black: #000000;
+  
+  --font-display: "SF Pro Display", "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "SF Pro Text", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-apple-ink);
+  background-color: var(--color-apple-canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+.apple-tracking-tight {
+  letter-spacing: -0.022em;
+}
+
+.apple-tracking-tighter {
+  letter-spacing: -0.01em;
+}
+
+.apple-shadow-product {
+  box-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
+}
+
+.apple-pill-button {
+  border-radius: 9999px;
+  background-color: var(--color-apple-primary);
+  color: white;
+  padding: 11px 22px;
+  font-size: 17px;
+  font-weight: 400;
+  transition: transform 0.1s ease;
+}
+
+.apple-pill-button:active {
+  transform: scale(0.95);
+}
+
+.apple-pill-button:focus-visible {
+  outline: 2px solid var(--color-apple-primary-focus);
+  outline-offset: 2px;
+}
+
+.apple-utility-button {
+  border-radius: 8px;
+  background-color: var(--color-apple-ink);
+  color: white;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.016em;
+  transition: transform 0.1s ease;
+}
+
+.apple-utility-button:active {
+  transform: scale(0.95);
+}
+
+.apple-ghost-button {
+  border-radius: 9999px;
+  background-color: transparent;
+  color: var(--color-apple-primary);
+  border: 1px solid var(--color-apple-primary);
+  padding: 11px 22px;
+  font-size: 17px;
+  transition: transform 0.1s ease;
+}
+
+.apple-ghost-button:active {
+  transform: scale(0.95);
+}
+
+.apple-section {
+  padding: 80px 0;
+}
