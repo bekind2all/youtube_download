@@ -1,14 +1,15 @@
 import React from 'react';
-import { Copy } from 'lucide-react';
+import { Copy, Download } from 'lucide-react';
 import { VideoData } from '../types';
 
 interface VideoCardProps {
   video: VideoData;
   rank: number;
   isDark?: boolean;
+  onDownload?: (url: string) => void;
 }
 
-export default function VideoCard({ video, rank, isDark = false }: VideoCardProps) {
+export default function VideoCard({ video, rank, isDark = false, onDownload }: VideoCardProps) {
   const containerClass = isDark ? "bg-apple-tile-2 text-white" : "bg-apple-canvas text-apple-ink border border-gray-100";
   const mutedClass = isDark ? "text-gray-400" : "text-apple-ink-muted-80";
 
@@ -48,6 +49,7 @@ export default function VideoCard({ video, rank, isDark = false }: VideoCardProp
           <div className="whitespace-nowrap">참여: <span className={isDark ? "text-white" : "text-apple-ink"}>{video.engagement.toFixed(2)}%</span></div>
         </div>
 
+        {onDownload && <button type="button" onClick={() => onDownload(video.url)} className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium bg-blue-600 text-white hover:bg-blue-500"><Download size={15} />다운로드</button>}
         <div className="mt-4 flex gap-2 w-full">
           <a 
             href={video.url}

@@ -3,13 +3,15 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import { attachDownloads } from './downloads';
 
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT || 4317);
 
 app.use(express.json({ limit: '10mb' }));
+attachDownloads(app);
 
 // Helper to parse ISO 8601 duration
 function parseDuration(duration: string): number {
@@ -43,7 +45,6 @@ app.post('/api/youtube/search', async (req, res) => {
   try {
     const { query, maxResults, order, videoType, isKoreanOnly, youtubeApiKey, geminiApiKey } = req.body;
     const apiKey = youtubeApiKey || process.env.YOUTUBE_API_KEY;
-    console.log("YOUTUBE_API_KEY inside server.ts starts with:", apiKey ? apiKey.substring(0, 5) : 'NOT SET');
 
     if (!apiKey) {
       return res.status(400).json({ error: 'YouTube API 키가 설정되지 않았습니다.' });
@@ -76,7 +77,6 @@ app.post('/api/youtube/search', async (req, res) => {
     if (durationParam !== 'any') {
       searchUrl.searchParams.append('videoDuration', durationParam);
     }
-    console.log("YouTube Search URL:", searchUrl.toString());
     const searchRes = await fetch(searchUrl.toString());
     const searchData = await searchRes.json();
 
@@ -248,7 +248,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  app.listen(PORT, '127.0.0.1', () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 }

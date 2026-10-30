@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { searchYouTube, analyzeWithGemini, saveToGoogleSheets } from './api';
-import { VideoData, SearchState, AnalysisData } from './types';
+import { VideoData, AnalysisData } from './types';
 import SearchForm from './components/SearchForm';
 import ResultsSummary from './components/ResultsSummary';
 import VideoCard from './components/VideoCard';
 import GeminiAnalysis from './components/GeminiAnalysis';
 import AuthButton from './components/AuthButton';
+import DownloadPanel from './components/DownloadPanel';
 import { Settings, FileSpreadsheet, Download, RefreshCcw } from 'lucide-react';
 
 export default function App() {
-  const [searchState, setSearchState] = useState<SearchState>({
+  const [downloadSelection, setDownloadSelection] = useState<{ url: string; nonce: number } | null>(null);
+  const selectDownload = (url: string) => setDownloadSelection({ url, nonce: Date.now() });
+  const [searchState, setSearchState] = useState<{ isLoading: boolean; error: string | null; hasSearched: boolean }>({
     isLoading: false,
     error: null,
     hasSearched: false
@@ -91,7 +94,7 @@ export default function App() {
 
       {/* Sub Nav (Sticky) */}
       <div className="sticky top-0 z-50 h-[52px] bg-apple-parchment/80 backdrop-blur-md flex items-center justify-between px-6 border-b border-apple-ink/5">
-        <h2 className="text-[21px] font-semibold tracking-tight">콘텐츠 분석</h2>
+        <div className="flex items-center gap-5"><a href="#video-analysis" className="text-[18px] font-semibold tracking-tight">콘텐츠 분석</a><a href="#video-download" className="text-[15px] text-apple-primary">영상 다운로드</a></div>
         {analysis && (
           <div className="flex gap-2">
             <a 
@@ -116,7 +119,7 @@ export default function App() {
 
       <main>
         {/* Search Section - Light Tile */}
-        <section className="bg-apple-canvas apple-section px-6 !pt-[56px]">
+        <section id="video-analysis" className="scroll-mt-16 bg-apple-canvas apple-section px-6 !pt-[56px]">
           <div className="max-w-[980px] mx-auto text-center mb-16">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FF0000" className="w-32 h-auto mx-auto mb-[56px]">
               <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -130,6 +133,8 @@ export default function App() {
           </div>
           <SearchForm onSearch={handleSearch} isLoading={searchState.isLoading} />
         </section>
+
+        <DownloadPanel selectedUrl={downloadSelection} />
 
         {searchState.error && (
           <div className="max-w-[980px] mx-auto px-6 mb-8 text-center text-red-600">
@@ -167,7 +172,7 @@ export default function App() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-4">
                   {videos.map((video, index) => (
-                    <VideoCard key={video.id} video={video} rank={index + 1} isDark={true} />
+                    <VideoCard key={video.id} video={video} rank={index + 1} isDark={true} onDownload={selectDownload} />
                   ))}
                 </div>
               </div>
