@@ -3,13 +3,14 @@ import { Copy, Download } from 'lucide-react';
 import { VideoData } from '../types';
 
 interface VideoCardProps {
+  key?: React.Key;
   video: VideoData;
   rank: number;
   isDark?: boolean;
-  onDownload?: (url: string) => void;
+  onSelectForDownload?: (url: string) => void;
 }
 
-export default function VideoCard({ video, rank, isDark = false, onDownload }: VideoCardProps) {
+export default function VideoCard({ video, rank, isDark = false, onSelectForDownload }: VideoCardProps) {
   const containerClass = isDark ? "bg-apple-tile-2 text-white" : "bg-apple-canvas text-apple-ink border border-gray-100";
   const mutedClass = isDark ? "text-gray-400" : "text-apple-ink-muted-80";
 
@@ -49,8 +50,7 @@ export default function VideoCard({ video, rank, isDark = false, onDownload }: V
           <div className="whitespace-nowrap">참여: <span className={isDark ? "text-white" : "text-apple-ink"}>{video.engagement.toFixed(2)}%</span></div>
         </div>
 
-        {onDownload && <button type="button" onClick={() => onDownload(video.url)} className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium bg-blue-600 text-white hover:bg-blue-500"><Download size={15} />다운로드</button>}
-        <div className="mt-4 flex gap-2 w-full">
+        <div className="mt-4 flex gap-1.5 w-full">
           <a 
             href={video.url}
             target="_blank"
@@ -60,16 +60,30 @@ export default function VideoCard({ video, rank, isDark = false, onDownload }: V
           >
             보기
           </a>
+          {onSelectForDownload && (
+            <button
+              onClick={() => onSelectForDownload(video.url)}
+              className="apple-utility-button whitespace-nowrap px-2.5 py-2 flex items-center justify-center gap-1 transition-colors text-[12px]"
+              style={{ 
+                backgroundColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.06)', 
+                color: isDark ? 'white' : 'var(--color-apple-ink)' 
+              }}
+              title="다운로드 입력창으로 이동"
+            >
+              <Download size={13} />
+              <span>다운</span>
+            </button>
+          )}
           <button
             onClick={handleCopyLink}
-            className="apple-utility-button whitespace-nowrap px-3 py-2 flex items-center justify-center transition-colors"
+            className="apple-utility-button whitespace-nowrap px-2.5 py-2 flex items-center justify-center transition-colors"
             style={{ 
               backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', 
               color: isDark ? 'white' : 'var(--color-apple-ink)' 
             }}
             title="링크 복사"
           >
-            <Copy size={14} />
+            <Copy size={13} />
           </button>
         </div>
       </div>

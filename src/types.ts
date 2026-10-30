@@ -21,6 +21,12 @@ export interface SearchState {
   isKoreanOnly?: boolean;
 }
 
+export interface SearchUiState {
+  isLoading: boolean;
+  error: string | null;
+  hasSearched: boolean;
+}
+
 export interface VideoAnalysis {
   id: string;
   summary: string;
@@ -40,4 +46,34 @@ export interface AnalysisData {
   recommendedTitles: string[];
   recommendedThumbnailTexts: string[];
   precautions: string[];
+}
+
+// Download Types (Windows PC Local Server)
+export type DownloadQuality = 'best' | '2160' | '1440' | '1080' | '720' | '480';
+
+export type DownloadJobStatus =
+  | 'queued'
+  | 'downloading'
+  | 'processing'
+  | 'completed'
+  | 'failed'
+  | 'cancelled';
+
+export interface DownloadJob {
+  id: string;
+  url: string;
+  status: DownloadJobStatus;
+  progress: number; // 0..100
+  detail?: string;
+  folder?: string;
+  file?: string;
+  error?: string;
+}
+
+export interface LocalServerStatus {
+  ready: boolean;
+  ytDlp?: string | null;
+  ffmpeg?: boolean;
+  folder?: string;
+  platform?: string;
 }
